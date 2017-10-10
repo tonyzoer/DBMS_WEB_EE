@@ -16,5 +16,9 @@
     <input type="hidden" name="command" value="CREATEDATABASEVIEW">
     <button type="submit">Create database</button>
   </form>
+  <form action="Controller" method="get">
+    <input type="hidden" name="command" value="ALLDATABASES">
+    <button type="submit">All Databases</button>
+  </form>
   </body>
 </html>

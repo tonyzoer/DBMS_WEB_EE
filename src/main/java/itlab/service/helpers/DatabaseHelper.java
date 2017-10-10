@@ -6,12 +6,21 @@ import java.util.List;
 
 public class DatabaseHelper {
     public static List<String> getAllSavedDatabases(){
+        String PATH = "/remote/dir/server/";
+        String directoryName = PATH.concat("database/");
         List<String> dbs=new LinkedList<>();
-        File folder=new File("database");
+        File folder=new File(directoryName);
         for (File fileEntry:folder.listFiles()
              ) {
             if (fileEntry.isFile()){
-                if (fileEntry.getName().split(".")[fileEntry.getName().split(".").length-1]=="db"){
+                String filename=fileEntry.getName();
+
+                String extension = "";
+                int i = filename.lastIndexOf('.');
+                if (i > 0) {
+                    extension = filename.substring(i+1);
+                }
+                if (extension.equals("db")){
                     dbs.add(fileEntry.getName());
                 }
             }

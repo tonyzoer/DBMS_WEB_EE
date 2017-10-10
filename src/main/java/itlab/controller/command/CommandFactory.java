@@ -1,6 +1,7 @@
 package itlab.controller.command;
 
 import itlab.controller.command.impl.databaseCommands.CreateDatabaseCommand;
+import itlab.controller.command.impl.viewCommands.AllDatabasesViewCommand;
 import itlab.controller.command.impl.viewCommands.CreateDatabaseViewCommand;
 
 /**
@@ -8,7 +9,8 @@ import itlab.controller.command.impl.viewCommands.CreateDatabaseViewCommand;
  */
 public enum CommandFactory {
     CREATEDATABASE(new CreateDatabaseCommand()),
-    CREATEDATABASEVIEW(new CreateDatabaseViewCommand());
+    CREATEDATABASEVIEW(new CreateDatabaseViewCommand()),
+    ALLDATABASES(new AllDatabasesViewCommand());
 
 
     private ICommand command;

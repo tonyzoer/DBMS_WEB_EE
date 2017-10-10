@@ -7,5 +7,6 @@ public interface ViewJsp {
     interface Database{
          String DATABASE="jsp/database.jsp";
          String CREATEDATABASE="jsp/createDatabase.jsp";
+         String ALLDATABASES="jsp/allDatabases.jsp";
     }
 }
