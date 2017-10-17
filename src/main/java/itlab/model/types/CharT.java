@@ -1,6 +1,5 @@
 package itlab.model.types;
 
-
 import itlab.model.exceptions.UnsupportedValueException;
 
 public class CharT extends Type {
@@ -31,7 +30,16 @@ public class CharT extends Type {
 
     @Override
     public void setValue(String s) {
-    value =s.charAt(0);
+        if (s == null||s.equals("")) {
+            value = Character.MIN_VALUE;
+        } else
+
+            value = s.charAt(0);
+    }
+
+    @Override
+    public String getStringValue() {
+        return value.toString();
     }
 
     @Override

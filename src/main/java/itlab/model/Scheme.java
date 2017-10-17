@@ -1,7 +1,5 @@
 package itlab.model;
 
-
-
 import itlab.model.types.Types;
 
 import java.io.Serializable;
@@ -18,12 +16,16 @@ public class Scheme implements Serializable {
         return columns;
     }
 
-    //TODO
     @Override
     public boolean equals(Object obj) {
         try {
             Scheme another = (Scheme) obj;
-            return this.columns.equals(another.columns);
+            if(columns.size() != another.columns.size()) return false;
+            for(Map.Entry<String, Types> item : columns.entrySet()){
+                if(another.columns.get(item.getKey()) != item.getValue())
+                    return false;
+            }
+            return true;
         } catch (ClassCastException ex) {
             return false;
         }

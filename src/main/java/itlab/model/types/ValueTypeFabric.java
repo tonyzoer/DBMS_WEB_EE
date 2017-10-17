@@ -1,6 +1,5 @@
 package itlab.model.types;
 
-
 import itlab.model.exceptions.UnsupportedValueException;
 
 public class ValueTypeFabric {
@@ -20,37 +19,24 @@ public class ValueTypeFabric {
     public Type createCorrectType(Types t, String val) throws UnsupportedValueException {
         switch (t) {
             case CHAR:
-//                if (CharT.supports(val)) {
                 return new CharT(val);
-//                }
-//                break;
             case CHARINTERVAL:
-//                if (CharInvT.supports(val)) {
                 return new CharInvT(val);
-//                }
-//                break;
             case DOUBLE:
-//                if (DoubleT.supports(val)) {
                 return new DoubleT(val);
-//                }
-//                break;
             case INTEGER:
-//                if (IntegerT.supports(val)) {
                 return new IntegerT(val);
-//                }
-//                break;
             case STRING:
                 return new StringT(val);
+            case STRINGN:
+                String words[] = val.split(" ");
+                Integer n = Integer.parseInt(words[words.length - 1]);
+                return new StringT(val, n);
             case TIMEINTERVAL:
-//                if (TimeInvT.supports(val))
                 return new TimeInvT(val);
-//                break;
             case TIME:
-//                if (TimeT.supports(val)) {
                 return new TimeT(val);
         }
-//                break;
-//        }
         return null;
     }
 

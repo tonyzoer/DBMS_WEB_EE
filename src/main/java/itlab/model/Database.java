@@ -1,11 +1,12 @@
 package itlab.model;
 
-
 import itlab.model.exceptions.NonExistingTable;
 import itlab.model.exceptions.TableAlreadyExsists;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Database implements Serializable {
@@ -32,7 +33,7 @@ public class Database implements Serializable {
             tables.put(name, t);
             return name;
         } else {
-            throw new TableAlreadyExsists(name + " table already exsists");
+            throw new TableAlreadyExsists(name + " table already exists");
         }
     }
 
@@ -44,7 +45,7 @@ public class Database implements Serializable {
 
         if (tables.containsKey(name))
             return tables.get(name);
-        else throw new NonExistingTable("Table " + name + " in database " + this.name + " not exsists");
+        else throw new NonExistingTable("Table " + name + " in database " + this.name + " not exists");
     }
 
     public void save() {
@@ -96,11 +97,54 @@ public class Database implements Serializable {
         f.delete();
     }
 
+    public List<Row> substractTables(String table1, String table2, String newTableName) throws NonExistingTable, TableAlreadyExsists {
+        if (tables.get(table1) == null || tables.get(table2) == null) throw new NonExistingTable();
+        Table first = tables.get(table1);
+        Table second = tables.get(table2);
+        if (!first.getScheme().equals(second.getScheme())) return null;
+
+        List<Row> firstList = new ArrayList(first.getRows().values());
+        List<Row> firstListTemp = new ArrayList(first.getRows().values());
+        List<Row> secondList = new ArrayList(second.getRows().values());
+        firstList.removeAll(secondList);
+        secondList.removeAll(firstListTemp);
+        firstList.addAll(secondList);
+        this.createTable(newTableName,tables.get(table1).getScheme());
+        for (Row row:firstList
+             ) {
+            tables.get(newTableName).addRow(row);
+        }
+        return firstList;
+    }
+
+    public List<Row> intersectionTable(String table1, String table2, String newTableName) throws NonExistingTable, TableAlreadyExsists {
+        if (tables.get(table1) == null || tables.get(table2) == null) throw new NonExistingTable();
+        Table first = tables.get(table1);
+        Table second = tables.get(table2);
+        if (!first.getScheme().equals(second.getScheme())) return null;
+
+        List<Row> firstList = new ArrayList(first.getRows().values());
+        List<Row> firstListTemp = new ArrayList(first.getRows().values());
+        List<Row> secondList = new ArrayList(second.getRows().values());
+        firstList.removeAll(secondList);
+        firstListTemp.removeAll(firstList);
+        this.createTable(newTableName,tables.get(table1).getScheme());
+        for (Row row:firstListTemp
+                ) {
+            tables.get(newTableName).addRow(row);
+        }
+        return firstListTemp;
+    }
+
     @Override
     public String toString() {
         return "Database{" +
                 "tables=" + tables +
                 ", name='" + name + '\'' +
                 '}';
+    }
+
+    private String getFilePath() {
+        return new File(ClassLoader.getSystemClassLoader().getResource(".").getPath()).getAbsolutePath();
     }
 }

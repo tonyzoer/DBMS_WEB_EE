@@ -9,13 +9,29 @@ public class StringT extends Type {
         super(s);
     }
 
+    StringT(String s, Integer num) throws UnsupportedValueException {
+        super(s);
+        if (s.length() > num) {
+            throw new UnsupportedValueException("Length is more then N");
+        }
+    }
+
 
     public String getValue() {
         return value;
     }
 
     public void setValue(String value) {
-        this.value = value;
+
+        if (value == null) {
+            this.value = "";
+        } else
+            this.value = value;
+    }
+
+    @Override
+    public String getStringValue() {
+        return value;
     }
 
     @Override
@@ -33,7 +49,9 @@ public class StringT extends Type {
         return getValue() != null ? getValue().hashCode() : 0;
     }
 
-    public static boolean supports(String value){ return true; }
+    public static boolean supports(String value) {
+        return true;
+    }
 
     @Override
     public String toString() {

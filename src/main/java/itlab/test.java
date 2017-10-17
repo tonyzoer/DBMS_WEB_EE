@@ -1,6 +1,5 @@
 package itlab;
 
-
 import itlab.model.Database;
 import itlab.model.Scheme;
 import itlab.model.Table;
@@ -8,13 +7,14 @@ import itlab.model.exceptions.NonExistingTable;
 import itlab.model.exceptions.TableAlreadyExsists;
 import itlab.model.exceptions.UnsupportedValueException;
 import itlab.model.types.Types;
+import itlab.service.helpers.DatabaseHelper;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class test {
     public static void main(String[] args) throws UnsupportedValueException, TableAlreadyExsists, NonExistingTable {
-        load();
+        save();
     }
     private static void load(){
         Database database = new Database("TestDB");
@@ -26,19 +26,26 @@ public class test {
     private static void save() throws TableAlreadyExsists, UnsupportedValueException, NonExistingTable {
         Database database=new Database("TestDB");
         HashMap<String,Types> schemeMap=new HashMap<>();
-        schemeMap.put("id",Types.INTEGER);
-        schemeMap.put("user",Types.STRING);
+        schemeMap.put("id", Types.INTEGER);
+        schemeMap.put("user", Types.STRING);
         String currtableUuid= database.createTable("first table",new Scheme(schemeMap));
         Table t= database.getTable(currtableUuid);
         HashMap<String,String> columnValue=new HashMap<>();
         columnValue.put("id","1");
         columnValue.put("user","SUPERUSER");
         String rowUuid = t.addRow(columnValue);
+        String rowUuid2 = t.addRow(columnValue);
+        HashMap<String,String> columnValue3=new HashMap<>();
+        columnValue.put("id","3");
+        columnValue.put("user","SUPERUSER3");
+        String uuid3= t.addRow(columnValue3);
         System.out.println(t.getRow(rowUuid));
+        System.out.println(t.getRow(rowUuid2));
+        System.out.println(t.getRow(uuid3));
         database.save();
     }
     private static void delete(){
         Database database = new Database("TestDB");
-        database.delete();
+       database.delete();
     }
 }

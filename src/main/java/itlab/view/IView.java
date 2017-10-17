@@ -18,6 +18,7 @@ public interface IView {
     public abstract void updateRowInTable(String databaseName, String tableName, String rowUUID, Map<String, String> collumnValues);
     public abstract void tableIntersection(String table1, String table2, String newTableName);
     public abstract void tableDifference(String table1, String table2, String newTableName);
+    public abstract void showAllTables(String databaseName);
     public void showAllDatabases();
     public void showAllExsistingTypes();
     public void help();

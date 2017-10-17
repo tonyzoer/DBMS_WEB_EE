@@ -1,7 +1,7 @@
 package itlab.view;
-
-
+import itlab.model.exceptions.NonExistingColumn;
 import itlab.model.exceptions.NonExistingTable;
+import itlab.model.exceptions.TableAlreadyExsists;
 import itlab.model.exceptions.UnsupportedValueException;
 import itlab.service.controllers.DatabaseControllerDirect;
 
@@ -12,15 +12,14 @@ import java.util.Scanner;
 public class ConsoleView implements IView {
     static ConsoleView cv = new ConsoleView();
     String db;
-    String table;
 
     public static void main(String[] args) {
         cv.help();
-        cv.proccesInput();
+        cv.processInput();
         return;
     }
 
-    private void proccesInput() {
+    private void processInput() {
         Scanner scanner = new Scanner(System.in);
         String input = scanner.nextLine();
         switch (input) {
@@ -28,7 +27,8 @@ public class ConsoleView implements IView {
                 showAllDatabases();
                 break;
             case "CreateDB":
-                createDatabase(readString("Enter name of new Database"));
+                db = readString("Enter name of new Database");
+                createDatabase(db);
                 break;
             case "DeleteDB":
                 deleteDatabase(readString("Enter name of Database"));
@@ -40,32 +40,30 @@ public class ConsoleView implements IView {
                 saveDatabase(readString("Enter name of Database"));
                 break;
             case "LoadDB":
-                loadDatabase(readString("Enter name of Database"));
+                db = readString("Enter name of Database");
+                loadDatabase(db);
                 break;
             case "CreateTable":
-                createTable(readString("Enter name of Database"),
-                        readString("Enter name of new Table"),
+                createTable(db, readString("Enter name of new Table"),
                         mapFromString(readString("Enter scheme in format 'name:TYPE;...;name:TYPE'")));
                 break;
             case "ShowTable":
-                showTable(readString("Enter name of Database"), readString("Enter name of Table"));
+                showTable(db, readString("Enter name of Table"));
                 break;
             case "ShowScheme":
-                showTableScheme(readString("Enter name of Database"), readString("Enter name of Table"));
+                showTableScheme(db, readString("Enter name of Table"));
                 break;
             case "AddRow":
                 addRowToTable(readString("Enter name of Database"),
                         readString("Enter name of Table"),
-                        mapFromString(readString("Enter Row in format 'collumnName:Value;...;collumnName:Value'")));
+                        mapFromString(readString("Enter Row in format 'columnName:Value;...;columnName:Value'")));
                 break;
             case "RemoveRow":
-                removeRowFromTable(readString("Enter name of Database"),
-                        readString("Enter name of new Table"), readString("Enter UUID of ROW"));
+                removeRowFromTable(db, readString("Enter name of new Table"), readString("Enter UUID of ROW"));
                 break;
             case "UpdateRow":
-                updateRowInTable(readString("Enter name of Database"),
-                        readString("Enter name of Table"), readString("Enter UUID of ROW"),
-                        mapFromString(readString("Enter Row in format 'collumnName:Value;...;collumnName:Value'")));
+                updateRowInTable(db, readString("Enter name of Table"), readString("Enter UUID of ROW"),
+                        mapFromString(readString("Enter Row in format 'columnName:Value;...;columnName:Value'")));
                 break;
             case "TableIntersection":
                 tableIntersection(readString("Enter name of Table 1"),
@@ -80,7 +78,7 @@ public class ConsoleView implements IView {
             case "SelectTable":
                 break;
         }
-        proccesInput();
+        processInput();
     }
 
     @Override
@@ -110,8 +108,12 @@ public class ConsoleView implements IView {
     }
 
     @Override
-    public void createTable(String databaseName, String tableName, Map<String, String> collumns) {
-        DatabaseControllerDirect.getInstance().addTable(databaseName, tableName, collumns);
+    public void createTable(String databaseName, String tableName, Map<String, String> columns) {
+        try {
+            DatabaseControllerDirect.getInstance().addTable(databaseName, tableName, columns);
+        } catch (TableAlreadyExsists tableAlreadyExsists) {
+            tableAlreadyExsists.printStackTrace();
+        }
     }
 
     @Override
@@ -172,6 +174,8 @@ public class ConsoleView implements IView {
             e.printStackTrace();
         } catch (NonExistingTable nonExistingTable) {
             nonExistingTable.printStackTrace();
+        } catch (NonExistingColumn nonExistingColumn) {
+            nonExistingColumn.printStackTrace();
         }
     }
 
@@ -182,6 +186,11 @@ public class ConsoleView implements IView {
 
     @Override
     public void tableDifference(String table1, String table2, String newTableName) {
+
+    }
+
+    @Override
+    public void showAllTables(String databaseName) {
 
     }
 

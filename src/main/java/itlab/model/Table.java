@@ -1,6 +1,5 @@
 package itlab.model;
 
-
 import itlab.model.exceptions.NonExistingColumn;
 import itlab.model.exceptions.UnsupportedValueException;
 import itlab.model.types.Types;
@@ -44,7 +43,11 @@ public class Table implements Serializable {
         rows.put(uuid, new Row(scheme, values));
         return uuid;
     }
-
+    public String addRow(Row row){
+        String uuid= UUID.randomUUID().toString();
+        rows.put(uuid,row);
+        return uuid;
+    }
     public Row getRow(String uuid) {
         return rows.get(uuid);
     }
@@ -53,8 +56,11 @@ public class Table implements Serializable {
         rows.remove(uuid);
     }
 
-    public void updateRow(String uuid, Map<String, String> values) throws UnsupportedValueException {
-        rows.replace(uuid, new Row(scheme, values));
+    public void updateRow(String uuid, Map<String, String> values) throws UnsupportedValueException, NonExistingColumn {
+        for (Map.Entry<String,String> entry:values.entrySet()
+             ) {
+            rows.get(uuid).setValue(entry.getKey(),entry.getValue(),scheme.columns.get(entry.getKey()));
+        }
     }
 
     public void updateRow(String uuid, String collumnName, String value) throws NonExistingColumn, UnsupportedValueException {
@@ -64,4 +70,12 @@ public class Table implements Serializable {
             cur.setValue(collumnName, value, t);
     }
 
+    @Override
+    public String toString() {
+        return "Table{" +
+                "name='" + name + '\'' +
+                ", scheme=" + scheme +
+                ", rows=" + rows +
+                '}';
+    }
 }
