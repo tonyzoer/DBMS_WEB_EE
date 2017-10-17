@@ -7,9 +7,11 @@ import itlab.controller.util.ViewJsp;
 import itlab.model.Database;
 import itlab.service.controllers.DatabaseControllerDirect;
 import itlab.view.IView;
+import sun.plugin.javascript.navig.Array;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by mafio on 17.10.2017.
@@ -17,9 +19,11 @@ import java.util.List;
 public class DatabaseViewCommand implements ICommand {
     @Override
     public String execute(RequestWrapper req) throws RequestAttributeNotPermittedException {
+        DatabaseControllerDirect.getInstance().loadDatabase(req.getParameter("name"));
         List<String> tables=new ArrayList<>();
         tables= DatabaseControllerDirect.getInstance().getAllTables(req.getParameter("name"));
         req.setAttribute("tables",tables);
+        req.setAttribute("curdb",req.getParameter("name"));
         return ViewJsp.Database.DATABASE;
     }
 }

@@ -10,11 +10,17 @@
 <c:forEach items="${tables}" var="table">
 
     <form action="/Controller" method="get">
-        <input type="hidden" name="command" value="DATABASE">
+        <input type="hidden" name="command" value="TABLE">
         <button type=""></button>
+        <c:out value="${table}"/>
     </form>
-    <c:out value="${table}"/>
 
 </c:forEach>>
+<form action="/Controller" method="get">
+    <input type="hidden" name="command" value="CREATETABLEVIEW">
+    <input type="hidden" name="curdb" value="${requestScope.curdb}">
+    <button type="submit"> Create table</button>
+</form>
+
 </body>
 </html>
