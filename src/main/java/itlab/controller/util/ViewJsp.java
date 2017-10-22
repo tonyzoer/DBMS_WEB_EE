@@ -9,5 +9,6 @@ public interface ViewJsp {
          String CREATEDATABASE="jsp/createDatabase.jsp";
          String ALLDATABASES="jsp/allDatabases.jsp";
          String CREATETABLE="jsp/createTable.jsp";
+        String TABLE="jsp/table.jsp";
     }
 }

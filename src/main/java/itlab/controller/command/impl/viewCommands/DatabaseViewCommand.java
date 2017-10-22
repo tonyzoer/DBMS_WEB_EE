@@ -19,11 +19,11 @@ import java.util.stream.Collectors;
 public class DatabaseViewCommand implements ICommand {
     @Override
     public String execute(RequestWrapper req) throws RequestAttributeNotPermittedException {
-        DatabaseControllerDirect.getInstance().loadDatabase(req.getParameter("name"));
+        DatabaseControllerDirect.getInstance().loadDatabase(req.getParameter("database"));
         List<String> tables=new ArrayList<>();
-        tables= DatabaseControllerDirect.getInstance().getAllTables(req.getParameter("name"));
+        tables= DatabaseControllerDirect.getInstance().getAllTables(req.getParameter("database"));
         req.setAttribute("tables",tables);
-        req.setAttribute("curdb",req.getParameter("name"));
+        req.setAttribute("database",req.getParameter("database"));
         return ViewJsp.Database.DATABASE;
     }
 }

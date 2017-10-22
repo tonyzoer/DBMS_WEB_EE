@@ -8,13 +8,13 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Create Table</title>
+    <title>Create Table in ${requestScope.database}</title>
 </head>
 <body>
 <form id="form" action="/Controller" method="post">
     <input type="hidden" name="command" value="CREATETABLE">
     <input id="count" type="hidden" name="count" value="0">
-    <input id="curdb" type="hidden" name="curdb" value="${requestScope.curdb}">
+    <input id="database" type="hidden" name="database" value="${requestScope.database}">
     <input type="text" name="tableName">
     <button type="submit"> Create</button>
     <br>

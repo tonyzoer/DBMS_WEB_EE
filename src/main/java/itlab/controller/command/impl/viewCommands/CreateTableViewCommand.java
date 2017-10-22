@@ -11,7 +11,7 @@ import itlab.controller.util.ViewJsp;
 public class CreateTableViewCommand implements ICommand {
     @Override
     public String execute(RequestWrapper req) throws RequestAttributeNotPermittedException {
-        req.setAttribute("curdb",req.getParameter("curdb"));
+        req.setAttribute("database",req.getParameter("database"));
         return ViewJsp.Database.CREATETABLE;
     }
 }

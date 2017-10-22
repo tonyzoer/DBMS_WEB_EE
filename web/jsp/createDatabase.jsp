@@ -13,7 +13,7 @@
 <body>
 <form action="/Controller" method="post">
     <input type="hidden" name="command" value="CREATEDATABASE"/>
-    <input type="text" name="name" value=""/>
+    <input type="text" name="database" value=""/>
     <button type="submit" >Create Database</button>
 </form>
 </body>

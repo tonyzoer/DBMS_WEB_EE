@@ -16,7 +16,7 @@ public class AllDatabasesViewCommand implements ICommand {
     @Override
     public String execute(RequestWrapper req) throws RequestAttributeNotPermittedException {
         List<String> databases=DatabaseControllerDirect.getInstance().getAllDatabases();
-        req.setAttribute("databases",databases.stream().map(s -> s.substring(0,s.length()-4)).collect(Collectors.toList()));
+        req.setAttribute("databases",databases.stream().map(s -> s.replaceAll(".db","")).collect(Collectors.toList()));
         return ViewJsp.Database.ALLDATABASES;
     }
 }

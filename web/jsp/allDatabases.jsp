@@ -11,10 +11,10 @@
 
     <form action="/Controller" method="get">
         <input type="hidden" name="command" value="DATABASE">
-        <input type="hidden" name="name" value="<c:out value="${database}"/>">
-        <button type="submit">Database</button>
+        <input type="hidden" name="database" value="<c:out value="${database}"/>">
+        <button type="submit">${database}"</button>
     </form>
-    <c:out value="${database}"/>
+
     <br>
 </c:forEach>>
 </body>

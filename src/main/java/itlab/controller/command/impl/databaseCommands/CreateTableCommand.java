@@ -1,5 +1,6 @@
 package itlab.controller.command.impl.databaseCommands;
 
+import itlab.controller.command.CommandFactory;
 import itlab.controller.command.ICommand;
 import itlab.controller.exceptions.RequestAttributeNotPermittedException;
 import itlab.controller.util.RequestWrapper;
@@ -22,13 +23,13 @@ public class CreateTableCommand implements ICommand {
             scheme.put(req.getParameter("columnName"+i),req.getParameter("type"+i).toUpperCase());
         }
         try {
-            DatabaseControllerDirect.getInstance().addTable(req.getParameter("curdb"),req.getParameter("tableName"),scheme);
-            DatabaseControllerDirect.getInstance().saveDatabase(req.getParameter("curdb"));
+            DatabaseControllerDirect.getInstance().addTable(req.getParameter("database"),req.getParameter("tableName"),scheme);
+            DatabaseControllerDirect.getInstance().saveDatabase(req.getParameter("database"));
         } catch (TableAlreadyExsists tableAlreadyExsists) {
             tableAlreadyExsists.printStackTrace();
         }
-        req.addParameter("name",req.getParameter("curdb"));
-        req.setAttribute("name",req.getParameter("curdb"));
-        return ViewJsp.Database.DATABASE;
+//        req.addParameter("name",req.getParameter("curdb"));
+//        req.setAttribute("name",req.getParameter("curdb"));
+        return CommandFactory.DATABASE.getCommand().execute(req);
     }
 }

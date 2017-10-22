@@ -12,6 +12,14 @@
         <servlet-name>mainController</servlet-name>
         <url-pattern>/Controller</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>tableController</servlet-name>
+        <servlet-class>itlab.controller.TableServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>tableController</servlet-name>
+        <url-pattern>/Table</url-pattern>
+    </servlet-mapping>
 
 
 </web-app>

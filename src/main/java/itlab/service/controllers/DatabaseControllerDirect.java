@@ -3,10 +3,7 @@ package itlab.service.controllers;
 import itlab.model.Database;
 import itlab.model.Row;
 import itlab.model.Scheme;
-import itlab.model.exceptions.NonExistingColumn;
-import itlab.model.exceptions.NonExistingTable;
-import itlab.model.exceptions.TableAlreadyExsists;
-import itlab.model.exceptions.UnsupportedValueException;
+import itlab.model.exceptions.*;
 import itlab.model.types.Types;
 import itlab.service.helpers.DatabaseHelper;
 
@@ -110,7 +107,7 @@ public class DatabaseControllerDirect implements DatabaseController {
 
     @Override
     public void removeTable(String databaseName, String tableName) {
-        dbInMemory.get(databaseName).deleteTable(tableName);
+            dbInMemory.get(databaseName).deleteTable(tableName);
     }
 
     @Override
@@ -140,7 +137,7 @@ public class DatabaseControllerDirect implements DatabaseController {
 
     @Override
     public void tableIntersection(String database, String table1, String table2, String newTableName) throws NonExistingTable, TableAlreadyExsists {
-        dbInMemory.get(database).intersectionTable(table1,table2,newTableName);
+        dbInMemory.get(database).intersectionTable(table1, table2, newTableName);
     }
 
     @Override
@@ -150,7 +147,7 @@ public class DatabaseControllerDirect implements DatabaseController {
 
     @Override
     public void tableDifference(String database, String table1, String table2, String newTableName) throws NonExistingTable, TableAlreadyExsists {
-        dbInMemory.get(database).substractTables(table1,table2,newTableName);
+        dbInMemory.get(database).substractTables(table1, table2, newTableName);
     }
 
     @Override
@@ -173,5 +170,15 @@ public class DatabaseControllerDirect implements DatabaseController {
             typesStrings.add(t.toString());
         }
         return typesStrings;
+    }
+
+    @Override
+    public String tableToString(String database, String table) throws NonExistingTable {
+        return dbInMemory.get(database).getTable(table).toString();
+    }
+
+    @Override
+    public Map<String, String> getRow(String database, String table, String UUID) throws NonExistingRow, NonExistingTable {
+        return dbInMemory.get(database).getTable(table).getRow(UUID).getValues();
     }
 }

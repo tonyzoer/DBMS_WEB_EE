@@ -1,11 +1,7 @@
 package itlab.controller.command;
 
-import itlab.controller.command.impl.databaseCommands.CreateDatabaseCommand;
-import itlab.controller.command.impl.databaseCommands.CreateTableCommand;
-import itlab.controller.command.impl.viewCommands.AllDatabasesViewCommand;
-import itlab.controller.command.impl.viewCommands.CreateDatabaseViewCommand;
-import itlab.controller.command.impl.viewCommands.CreateTableViewCommand;
-import itlab.controller.command.impl.viewCommands.DatabaseViewCommand;
+import itlab.controller.command.impl.databaseCommands.*;
+import itlab.controller.command.impl.viewCommands.*;
 
 /**
  * Created by mafio on 09.10.2017.
@@ -16,7 +12,11 @@ public enum CommandFactory {
     ALLDATABASES(new AllDatabasesViewCommand()),
     DATABASE(new DatabaseViewCommand()),
     CREATETABLEVIEW(new CreateTableViewCommand()),
-    CREATETABLE(new CreateTableCommand());
+    CREATETABLE(new CreateTableCommand()),
+    INTERSECT(new IntersectTablesCommand()),
+    SUBSTRACT(new SubstractTablesCommand()),
+    TABLEVIEW(new TableViewCommand()),
+    DELETEDATABASE(new DeleteTableCommand());
 
 
     private ICommand command;
