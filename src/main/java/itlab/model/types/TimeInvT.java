@@ -60,8 +60,8 @@ public class TimeInvT extends Type {
             try {
                 String[] si = s.split("/");
                 if (si.length == 2) {
-                    begin = LocalTime.parse(si[0], DateTimeFormatter.ofPattern("HH:mm:ss[.ssssss]"));
-                    end = LocalTime.parse(si[1], DateTimeFormatter.ofPattern("HH:mm:ss[.ssssss]"));
+                    begin = LocalTime.parse(si[0], DateTimeFormatter.ISO_TIME);
+                    end = LocalTime.parse(si[1], DateTimeFormatter.ISO_TIME);
                 } else {
                     throw new UnsupportedValueException("Not founded time splitter or more then 1 for type TimeInterval");
                 }

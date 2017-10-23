@@ -40,7 +40,7 @@ public class TimeT extends Type {
             value = LocalTime.MIDNIGHT;
         } else
             try {
-                value = LocalTime.parse(s, DateTimeFormatter.ofPattern("HH:mm:ss[.ssssss]"));
+                value = LocalTime.parse(s, DateTimeFormatter.ISO_TIME);
             } catch (DateTimeException ex) {
                 throw new UnsupportedValueException(s + " not suportet value for Time Type", ex);
             }
