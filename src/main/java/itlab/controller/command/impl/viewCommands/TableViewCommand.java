@@ -38,13 +38,13 @@ public class TableViewCommand implements ICommand{
 //        } catch (NonExistingTable nonExistingTable) {
 //            nonExistingTable.printStackTrace();
 //        }
-        String table= null;
-        try {
-            table = DatabaseControllerDirect.getInstance().tableToString(databaseStr,tableStr);
-        } catch (NonExistingTable nonExistingTable) {
-            nonExistingTable.printStackTrace();
-        }
-        req.setAttribute("table",table);
+//        String table= null;
+//        try {
+//            table = DatabaseControllerDirect.getInstance().tableToString(databaseStr,tableStr);
+//        } catch (NonExistingTable nonExistingTable) {
+//            nonExistingTable.printStackTrace();
+//        }
+//        req.setAttribute("table",table);
 //        req.setAttribute("rows",rows);
         req.setAttribute("scheme",scheme);
         req.setAttribute("databaseStr",databaseStr);

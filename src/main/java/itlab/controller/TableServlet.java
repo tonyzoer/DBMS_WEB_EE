@@ -2,10 +2,12 @@ package itlab.controller;
 
 
 import com.google.gson.Gson;
+import itlab.model.exceptions.NonExistingColumn;
 import itlab.model.exceptions.NonExistingRow;
 import itlab.model.exceptions.NonExistingTable;
 import itlab.model.exceptions.UnsupportedValueException;
 import itlab.service.controllers.DatabaseControllerDirect;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -22,13 +24,13 @@ public class TableServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String table = req.getParameter("table");
         String database = req.getParameter("database");
-        Map<String,Map<String,String>> tableMap =new HashMap<>();
+        Map<String, Map<String, String>> tableMap = new HashMap<>();
         try {
-             tableMap= DatabaseControllerDirect.getInstance().getTableRowsAsMap(database, table);
+            tableMap = DatabaseControllerDirect.getInstance().getTableRowsAsMap(database, table);
         } catch (NonExistingTable nonExistingTable) {
             nonExistingTable.printStackTrace();
         }
-        String json=new Gson().toJson(tableMap);
+        String json = new Gson().toJson(tableMap);
         resp.setContentType("application/json");
         resp.setCharacterEncoding("UTF-8");
         resp.getWriter().write(json);
@@ -44,30 +46,30 @@ public class TableServlet extends HttpServlet {
         } catch (NonExistingTable nonExistingTable) {
             nonExistingTable.printStackTrace();
         }
-        Map<String,String> newRowMap=new HashMap<>();
+        Map<String, String> newRowMap = new HashMap<>();
         for (Map.Entry<String, String> col : scheme.entrySet()) {
-            String colVal= req.getParameter(col.getKey());
-            newRowMap.put(col.getKey(),colVal);
+            String colVal = req.getParameter(col.getKey());
+            newRowMap.put(col.getKey(), colVal);
         }
-        String UUIDrow="";
+        String UUIDrow = "";
         try {
-            UUIDrow= DatabaseControllerDirect.getInstance().addRowToTable(database,table,newRowMap);
+            UUIDrow = DatabaseControllerDirect.getInstance().addRowToTable(database, table, newRowMap);
         } catch (UnsupportedValueException e) {
             e.printStackTrace();
         } catch (NonExistingTable nonExistingTable) {
             nonExistingTable.printStackTrace();
         }
         DatabaseControllerDirect.getInstance().saveDatabase(database);
-        Map<String,String> row=new HashMap<>();
+        Map<String, String> row = new HashMap<>();
         try {
-           row= DatabaseControllerDirect.getInstance().getRow(database,table,UUIDrow);
+            row = DatabaseControllerDirect.getInstance().getRow(database, table, UUIDrow);
         } catch (NonExistingRow nonExistingRow) {
             nonExistingRow.printStackTrace();
         } catch (NonExistingTable nonExistingTable) {
             nonExistingTable.printStackTrace();
         }
-        row.put("UUID",UUIDrow);
-        String json=new Gson().toJson(row);
+        row.put("UUID", UUIDrow);
+        String json = new Gson().toJson(row);
         resp.setContentType("application/json");
         resp.setCharacterEncoding("UTF-8");
         resp.getWriter().write(json);
@@ -75,11 +77,36 @@ public class TableServlet extends HttpServlet {
 
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doPut(req, resp);
+        String table = req.getParameter("table");
+        String database = req.getParameter("database");
+        String col = req.getParameter("col");
+        String value = req.getParameter("value");
+        String uuid = req.getParameter("UUID");
+        Map<String, String> values = new HashMap<>();
+        values.put(col, value);
+        try {
+            DatabaseControllerDirect.getInstance().updateRowInTable(database, table, uuid, values);
+            DatabaseControllerDirect.getInstance().saveDatabase(database);
+        } catch (UnsupportedValueException e) {
+            e.printStackTrace();
+        } catch (NonExistingTable nonExistingTable) {
+            nonExistingTable.printStackTrace();
+        } catch (NonExistingColumn nonExistingColumn) {
+            nonExistingColumn.printStackTrace();
+        }
     }
 
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doDelete(req, resp);
+        String table = req.getParameter("table");
+        String database = req.getParameter("database");
+        String uuid = req.getParameter("UUID");
+        try {
+            DatabaseControllerDirect.getInstance().removeRowFromTable(database, table, uuid);
+            DatabaseControllerDirect.getInstance().saveDatabase(database);
+
+        } catch (NonExistingTable nonExistingTable) {
+            nonExistingTable.printStackTrace();
+        }
     }
 }
