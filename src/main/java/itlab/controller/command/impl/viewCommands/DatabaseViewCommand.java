@@ -7,7 +7,6 @@ import itlab.controller.util.ViewJsp;
 import itlab.model.Database;
 import itlab.service.controllers.DatabaseControllerDirect;
 import itlab.view.IView;
-import sun.plugin.javascript.navig.Array;
 
 import java.util.ArrayList;
 import java.util.List;
