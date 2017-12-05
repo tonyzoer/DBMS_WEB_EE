@@ -49,6 +49,7 @@ public class TableViewCommand implements ICommand{
         req.setAttribute("scheme",scheme);
         req.setAttribute("databaseStr",databaseStr);
         req.setAttribute("tableStr",tableStr);
+        req.setAttribute("time",System.currentTimeMillis());
         return ViewJsp.Database.TABLE;
     }
 }

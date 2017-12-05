@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="DBMS_WEB_EE:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <root id="archive" name="DBMS_WEB_EE.war">
+      <element id="artifact" artifact-name="DBMS_WEB_EE:war exploded" />
+    </root>
+  </artifact>
+</component>
